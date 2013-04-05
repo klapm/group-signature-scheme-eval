@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!--
+
+  ISO 20008-2.2 tests build script
+  nothing fancy in here, just some basic ant tasks to build the junit tests
+  and run them
+
+  Use with Ant 1.8+.
+  
+  Klaus Potzmader <klaus-dot-potzmader-at-student-dot-tugraz-dot-at>
+ -->
+
+<project name="iso20008tests" basedir="." default="alltests">
+
+  <!-- - - - - - - - - - - common properties 'n stuff - - - - - - - - -  -->
+
+  <property  name="out.dir"     location="classes" />
+  <property  name="lib.dir"     location="lib" />
+  <property  name="src.dir"     location="src" />
+
+  <!-- don't use 'location' or any *.dir variables here,
+       will break the exclusion pattern thingy somehow.. -->
+  <property  name="src.tests.dir" 
+            value="src/org/iso200082/tests" />
+  
+  <property  name="tests.package" 
+            value="org.iso200082.tests" />
+  
+  <!-- still present for reference, but not really used anymore -->
+  <property  name="jpbc.patch.dir" location="../PatchedJPBC" />
+  <property  name="jpbc.api.jar"   value="jpbc-api-1.2.1.jar" />
+  
+  <property  name="project.dir"     location="../ISO20008" />
+  <property  name="project.out.dir" location="${project.dir}/classes" />
+  <property  name="project.lib.dir" location="${project.dir}/lib" />
+
+  <!-- junit-related properties -->
+  <property  name="lib.junit.name" value="junit.jar" />
+  <property  
+           name="lib.junit.url"
+          value="http://repo1.maven.org/maven2/junit/junit/4.10/junit-4.10.jar"
+  />
+  
+  <!-- IAIK JCE properties
+      (used for a single unit test to compare against a JCE output) -->
+  <property  name="lib.jce.name"  value="jce.jar" />
+  
+  <!-- underlying api implementation jvm definition flag -->
+  <property  name="compiler.arg.implname" 
+            value="-Dsig-scheme-impl" />
+  <property  name="compiler.arg.implvalue"
+            value="org.iso200082.common.ISO20008Factory" />
+  
+  <path id="classpath.test">
+    <pathelement location="${lib.dir}/${lib.junit.name}" />
+
+    <pathelement location="${project.out.dir}" />
+  </path>
+  
+  <!-- checks whether the project itself has already been
+       compiled (not too reliable) -->
+  <condition property="project.built">
+    <and>
+      
+      <available file="${project.dir}/classes" />
+      
+      <!-- just a simple test for one sample file -->
+      <available
+        file="${project.out.dir}/iaik/scos/iso200082/common/util/Util.class"
+      />
+      
+    </and>
+  </condition>
+
+  <!-- checks if lib/junit.jar is present -->
+  <available property="junit.present" file="${lib.dir}/${lib.junit.name}"/>
+  
+  <!-- - - - - - - - - - - - actual targets below - - - - - - - - - - -  -->
+
+  <!-- Fetches junit 4.10 (newest stable atm, particular 4.x version does not 
+       really matter for its purposes here) and places it into lib/ if no
+       junit.jar is already present there -->
+  <target name="download-junit" unless="${junit.present}">
+    <mkdir dir="${lib.dir}" />
+    <get  src="${lib.junit.url}"
+         dest="${lib.dir}/${lib.junit.name}"
+      verbose="true" />
+  </target> 
+
+  <!-- Compiles the project (if not done so already) -->
+  <target name="compile-project" unless="${project.built}">
+    
+    <ant dir="${project.dir}"
+         inheritall="false"
+         antfile="${project.dir}/build.xml"
+         target="compile" />
+    
+  </target> 
+    
+  <target name="compile" depends="compile-project,download-junit"
+          description="Compiles the task">
+
+    <mkdir dir="${out.dir}" />
+    
+    <javac srcdir="."
+           destdir="${out.dir}"
+           fork="yes" 
+           source="1.7" 
+           debug="on"
+           includeantruntime="false"
+           encoding="ISO-8859-1"
+      >
+      
+      <classpath refid="classpath.test" />
+      <compilerarg value="-Xlint:all"/>
+    </javac>
+    
+  </target>
+  
+  <!-- note that this suite might take a while (due to the libtests).. -->
+  <target name="alltests" description="Run all tests" depends="compile">
+    <junit fork="yes">
+      <classpath refid="classpath.test" />
+      <classpath location="${out.dir}" />
+      <formatter type="plain" usefile="false" />
+      <jvmarg 
+        value="${compiler.arg.implname}=${compiler.arg.implvalue}" />
+      <test name="${tests.package}.AllTests" />
+    </junit>
+  </target>
+  
+  <!-- note that these might take a while.. -->
+  <target name="libtests" description="lib tests">
+    <junit fork="yes">
+      <classpath refid="classpath.test" />
+      <classpath location="${out.dir}" />
+      <formatter type="plain" usefile="false" />
+      <jvmarg 
+        value="${compiler.arg.implname}=${compiler.arg.implvalue}" />
+      <test name="${tests.package}.TestLibBigInteger" />
+    </junit>
+  </target>
+  
+  <target name="ecctests" description="ECC tests">
+    <junit fork="yes">
+      <classpath refid="classpath.test" />
+      <classpath location="${out.dir}" />
+      <formatter type="plain" usefile="false" />
+      <jvmarg 
+        value="${compiler.arg.implname}=${compiler.arg.implvalue}" />
+      <test name="${tests.package}.common.TestECCBigInteger" />
+    </junit>
+  </target>
+  
+  <target name="hashtests" description="Hash tests">
+    <junit fork="yes">
+      <classpath refid="classpath.test" />
+      <classpath location="${out.dir}" />
+      <formatter type="plain" usefile="false" />
+      <jvmarg 
+        value="${compiler.arg.implname}=${compiler.arg.implvalue}" />
+      <test name="${tests.package}.common.TestHashBigInteger" />
+    </junit>
+  </target>
+  
+  <target name="utiltests" description="Utility function tests">
+    <junit fork="yes">
+      <classpath refid="classpath.test" />
+      <classpath location="${out.dir}" />
+      <formatter type="plain" usefile="false" />
+      <jvmarg 
+        value="${compiler.arg.implname}=${compiler.arg.implvalue}" />
+      <test name="${tests.package}.common.TestUtil" />
+    </junit>
+  </target>
+  
+  <target name="m1tests" description="m1chanism 1 tests">
+    <junit fork="yes">
+      <classpath refid="classpath.test" />
+      <classpath location="${out.dir}" />
+      <formatter type="plain" usefile="false" />
+      <jvmarg 
+        value="${compiler.arg.implname}=${compiler.arg.implvalue}" />
+      <test name="${tests.package}.m1.TestMechanism1" />
+    </junit>
+  </target>
+  
+  <target name="m4tests" description="mechanism 4 tests">
+    <junit fork="yes">
+      <classpath refid="classpath.test" />
+      <classpath location="${out.dir}" />
+      <formatter type="plain" usefile="false" />
+      <jvmarg 
+        value="${compiler.arg.implname}=${compiler.arg.implvalue}" />
+      <test name="${tests.package}.m4.TestMechanism4BigInteger" />
+    </junit>
+  </target>  
+  
+  <target name="m5tests" description="mechanism 5 tests">
+    <junit fork="yes">
+      <classpath refid="classpath.test" />
+      <classpath location="${out.dir}" />
+      <formatter type="plain" usefile="false" />
+      <jvmarg 
+        value="${compiler.arg.implname}=${compiler.arg.implvalue}" />
+      <test name="${tests.package}.m5.TestMechanism5BigInteger" />
+    </junit>
+  </target>  
+  
+  <!-- (intentionally) failing tests below -->
+
+  <target name="clean" description="Clean the build directory">
+    <delete dir="${out.dir}" />
+  </target>
+  
+  <target name="clean-junit" description="Removes the junit library">
+    <delete file="${lib.dir}/${lib.junit.name}" />
+  </target>
+</project>

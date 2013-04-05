@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!--
+
+  ISO 20008-2.2 implementation build script
+  nothing fancy in here, just some basic ant tasks to build the project,
+  create the javadoc and similar things.
+  
+  Use with Ant 1.8+.
+
+  Klaus Potzmader <klaus-dot-potzmader-at-student-dot-tugraz-dot-at>
+ -->
+
+<project name="iso20008" default="compile">
+
+  <!-- - - - - - - - - - - common properties 'n stuff - - - - - - - - -  -->
+
+  <property  name="out.dir" location="classes" />
+  <property  name="doc.dir" location="doc" />
+  <property  name="lib.dir" location="lib" />
+  <property  name="src.dir" location="src" />
+   
+  <!-- don't use 'location' or any *.dir variables here,
+       will break the exclusion pattern thingy somehow.. -->
+  <property  name="src.common.dir"
+            value="src/org/iso200082/common" />
+  <property  name="src.mechanisms.dir"
+            value="src/org/iso200082/mechanisms" />
+    
+  <!-- set of files to in-/exclude for javadoc generation
+       (note that *.java is included by default)
+       
+       javac does notsupport nested filesets,
+       so it's defined separately there :/ -->
+  <fileset dir="${src.dir}" defaultexcludes="yes" id="fileset.src">
+  
+    <!-- jpbc excludes stripped as no longer used anyways -->
+  
+  </fileset>
+
+  <!-- - - - - - - - - - - - actual targets below - - - - - - - - - - -  -->
+  
+  <target name="compile" description="Compiles the task">
+    <mkdir dir="${out.dir}" />
+    <javac srcdir="."
+           destdir="${out.dir}"
+           fork="yes"
+           source="1.7"
+           debug="on"
+           includeantruntime="false" 
+           encoding="ISO-8859-1">
+      
+      <!-- latin1 encoding is added for linux support, 
+           apparently javac nags otherwise due
+           to some utf8-unmappable chars in the javadoc.. -->
+      
+      <compilerarg value="-Xlint:all"/>
+      
+    </javac>
+  </target>
+
+  <target name="clean" description="Clean the build directory">
+    <delete dir="classes" />
+  </target>
+
+  <target name="javadoc">
+    <javadoc access="private"
+             author="true"
+             destdir="doc"
+             doctitle="ISO20008-2.2"
+             nodeprecated="false"
+             nodeprecatedlist="false"
+             noindex="false"
+             nonavbar="false"
+             notree="false"
+             failonerror="true" 
+             packagenames="org.iso200082.*"
+             source="1.7"
+             splitindex="true"
+             use="true"
+             version="true"
+             encoding="ISO-8859-1"
+      >
+      
+      <fileset refid="fileset.src" />
+      
+    </javadoc>
+  </target>
+
+</project>

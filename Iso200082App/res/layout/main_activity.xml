@@ -1,0 +1,308 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sv_mainscroller"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:scrollbars="vertical"
+    android:layout_weight="5">
+
+<LinearLayout 
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".MainActivity"
+    tools:ignore="MergeRootFrame"
+    android:padding="1dp" >
+        
+    <LinearLayout
+        android:id="@+id/container_mechanism"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".MainActivity"
+        tools:ignore="MergeRootFrame" >
+        
+        <TextView
+            android:id="@+id/tv_mechanism"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:gravity="center"
+            android:text="@string/mechanism_prompt"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        
+	    <Spinner
+	        android:id="@+id/sp_mechanism"
+	        android:layout_width="wrap_content"
+	        android:layout_height="43dp"
+	        android:entries="@array/mechanism_array"
+	        android:prompt="@string/mechanism_prompt"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/container_operation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".MainActivity"
+        tools:ignore="MergeRootFrame" >
+
+        <TextView
+            android:id="@+id/tv_op"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:gravity="center"
+            android:text="@string/op_prompt"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <Spinner
+            android:id="@+id/sp_op"
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:entries="@array/op_array"
+            android:prompt="@string/op_prompt"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/container_keylen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".MainActivity"
+        tools:ignore="MergeRootFrame" >
+
+        <TextView
+            android:id="@+id/tv_keylen"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:gravity="center"
+            android:text="@string/len_prompt"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <Spinner
+            android:id="@+id/spinner_keylen"
+            android:layout_width="wrap_content"
+            android:layout_height="53dp"
+            android:prompt="@string/len_prompt"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/container_iter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".MainActivity"
+        tools:ignore="MergeRootFrame" >
+
+        <TextView
+            android:id="@+id/tv_iter"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:gravity="center"
+            android:text="@string/iter_prompt"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <EditText
+            android:id="@+id/et_iter"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:hint="@string/numiterationshint"
+            android:text="@string/i100"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:windowSoftInputMode="stateHidden" >
+        </EditText>
+
+        <CheckBox
+        android:id="@+id/cb_setup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fixed_setup"
+        android:textAppearance="?android:attr/textAppearanceSmall"  />
+        
+    </LinearLayout>
+    
+    <RadioGroup
+        android:id="@+id/rb_precomp"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+        
+        <RadioButton
+            android:id="@+id/rb_precomp0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rb_precomp0"
+            android:checked="true"
+        	android:textAppearance="?android:attr/textAppearanceSmall"  />
+        
+        <RadioButton
+            android:id="@+id/rb_precomp1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rb_precomp1"
+        	android:textAppearance="?android:attr/textAppearanceSmall" />
+        
+        <RadioButton
+            android:id="@+id/rb_precomp2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rb_precomp2"
+        	android:textAppearance="?android:attr/textAppearanceSmall"  />
+    </RadioGroup>
+            
+    
+    <LinearLayout
+        android:id="@+id/impl_iter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".MainActivity"
+        tools:ignore="MergeRootFrame" >
+        
+	    <RadioGroup
+	     android:id="@+id/rb_prim"
+	     android:orientation="horizontal"
+	     android:layout_width="wrap_content"
+	     android:layout_height="wrap_content"
+    	 android:textAppearance="?android:attr/textAppearanceSmall"  >
+    
+	     <RadioButton
+	         android:id="@+id/rb_bigint"
+	         android:layout_width="wrap_content"
+	         android:layout_height="wrap_content"
+	         android:text="@string/rb_bigint"
+	         android:checked="true"
+	         android:textAppearance="?android:attr/textAppearanceSmall"  />
+          
+	     <RadioButton
+	         android:id="@+id/rb_fixedwidth"
+	         android:layout_width="wrap_content"
+	         android:layout_height="wrap_content"
+	         android:text="@string/rb_fixedwidth"
+	    	 android:textAppearance="?android:attr/textAppearanceSmall"  />
+    
+		</RadioGroup>
+
+	    <CheckBox
+	        android:id="@+id/cb_monty"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/monty"
+	        android:textAppearance="?android:attr/textAppearanceSmall" />
+	</LinearLayout>
+	
+    <RadioGroup
+	     android:id="@+id/rb_mult"
+	     android:orientation="horizontal"
+	     android:layout_width="wrap_content"
+	     android:layout_height="wrap_content"
+    	 android:textAppearance="?android:attr/textAppearanceSmall"  >
+    
+	     <RadioButton
+	         android:id="@+id/rb_mult_affine"
+	         android:layout_width="wrap_content"
+	         android:layout_height="wrap_content"
+	         android:text="@string/rb_multaffine"
+	         android:checked="true"
+	         android:textAppearance="?android:attr/textAppearanceSmall"  />
+          
+	     <RadioButton
+	         android:id="@+id/rb_mult_mixed"
+	         android:layout_width="wrap_content"
+	         android:layout_height="wrap_content"
+	         android:text="@string/rb_multmixed"
+	    	 android:textAppearance="?android:attr/textAppearanceSmall"  />
+    
+		</RadioGroup>
+    
+   	<Button
+        android:id="@+id/btn_go"
+        android:layout_width="fill_parent"
+        android:layout_height="35dp"
+        android:gravity="center"
+        android:text="@string/go"
+        android:onClick="clickHandler"
+        android:textAppearance="?android:attr/textAppearanceSmall" />    
+
+    <TextView
+        android:id="@+id/tv_output"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/status"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <View
+    android:layout_width="fill_parent"
+    android:layout_height="1dip"
+    android:background="#000000" />
+    
+    <TextView
+      android:id="@+id/tv_status"
+      android:layout_width="match_parent"
+      android:layout_height="150dp"
+      android:textAppearance="?android:attr/textAppearanceSmall" 
+      android:maxLines="9"
+      android:scrollbars="vertical"
+      android:orientation="vertical"
+      android:scrollbarAlwaysDrawVerticalTrack="true" />
+    
+    <View
+    android:layout_width="fill_parent"
+    android:layout_height="1dip"
+    android:background="#000000" />
+    
+    <LinearLayout
+        android:id="@+id/container_ms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".MainActivity"
+        tools:ignore="MergeRootFrame" >
+    <TextView
+        android:id="@+id/tv_mean"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="38dp"
+        android:gravity="left|center_vertical"
+        android:text="@string/meanlabel"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/tv_stddev"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="36dp"
+        android:gravity="left|center_vertical"
+        android:text="@string/stddevlabel"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+        
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/container_minmax"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".MainActivity"
+        tools:ignore="MergeRootFrame" >
+    <TextView
+        android:id="@+id/tv_min"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="36dp"
+        android:gravity="left|center_vertical"
+        android:text="@string/minlabel"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/tv_max"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="36dp"
+        android:gravity="left|center_vertical"
+        android:text="@string/maxlabel"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    </LinearLayout>
+    
+</LinearLayout>
+</ScrollView>
