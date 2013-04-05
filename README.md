@@ -13,16 +13,16 @@ Liqun Chen
 Contains Mechanisms 1, 4 and 5 as well as basic infrastructure support, such
 as a tiny ECC library supporting Optimal Ate Pairing and general infrastructure
 to embed other mechanisms.
-================================================================================
 
+================================================================================
 TOC
 ================================================================================
 
-o License
-o Building
-o Running/Testing
-o Adding a new mechanism
-o jVisualVM Profiling
+* License
+* Building
+* Running/Testing
+* Adding a new mechanism
+* jVisualVM Profiling
 
 ================================================================================
 LICENSE
