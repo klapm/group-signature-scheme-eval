@@ -22,7 +22,6 @@ TOC
 * Building
 * Running/Testing
 * Adding a new mechanism
-* jVisualVM Profiling
 
 ================================================================================
 LICENSE
