@@ -11,8 +11,16 @@ Peter Teufl
 Liqun Chen
 
 Contains Mechanisms 1, 4 and 5 as well as basic infrastructure support, such
-as a tiny ECC library supporting Optimal Ate Pairing and general infrastructure
-to embed other mechanisms.
+as a tiny ECC library supporting Optimal Ate Pairing over Barreto-Naehrig curves
+and general infrastructure to embed other mechanisms.
+
+Since the custom fixed-width arithmetic implementation mentioned in the paper is
+(unfortunately) influenced by commercial sources from the ECCelerate library of
+the Institute for Applied Information Processing and Communication (IAIK), the
+concrete implementation is omitted and reduced to the stubs. See 
+https://jce.iaik.tugraz.at/sic/Products/Core-Crypto-Toolkits/ECCelerate for more
+information. However, the caching mechanisms and type information is retained so
+one can get the idea behind this approach. 
 
 ================================================================================
 TOC
